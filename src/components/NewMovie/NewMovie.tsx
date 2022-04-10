@@ -1,20 +1,27 @@
-import React, { FormEvent, memo, useState } from 'react';
+import React, {
+  FormEvent,
+  memo,
+  useContext,
+  useState,
+} from 'react';
 
 import './NewMovie.scss';
+import { MovieContext } from '../contexts/MovieContext';
 
 interface Props {
   onAdd: (movie: Movie) => void,
 }
 
-export const NewMovie: React.FC<Props> = memo(({ onAdd }) => {
+export const NewMovie: React.FC<Props> = memo(() => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
+  const { addMovie } = useContext(MovieContext);
 
   const createMovie = () => {
-    onAdd({
+    addMovie({
       title,
       description,
       imgUrl,

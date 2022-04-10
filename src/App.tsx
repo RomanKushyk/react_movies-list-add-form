@@ -1,29 +1,24 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useContext } from 'react';
 
 import './App.scss';
 
 import { MoviesList } from './components/MoviesList';
 import { NewMovie } from './components/NewMovie';
-import moviesFromServer from './api/movies.json';
+import { MovieContext, MovieProvider } from './components/contexts/MovieContext';
 
 export const App: React.FC = memo(() => {
-  const [movies, setMovies] = useState(moviesFromServer);
-
-  const addMovie = (movie: Movie) => {
-    setMovies((current) => ([
-      ...current,
-      movie,
-    ]));
-  };
+  const { movies, addMovie } = useContext(MovieContext);
 
   return (
-    <div className="page">
-      <div className="page-content">
-        <MoviesList movies={movies} />
+    <MovieProvider>
+      <div className="page">
+        <div className="page-content">
+          <MoviesList movies={movies} />
+        </div>
+        <div className="sidebar">
+          <NewMovie onAdd={addMovie} />
+        </div>
       </div>
-      <div className="sidebar">
-        <NewMovie onAdd={addMovie} />
-      </div>
-    </div>
+    </MovieProvider>
   );
 });
